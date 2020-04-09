@@ -33,8 +33,12 @@ int main()
 {
   using namespace manispline;
   {
-    std::array a{1.0, 2.0, 4.0, 5.0};
-    std::cout << interpolate(a, 1.2) << std::endl;
+    std::array a{1.0, 1.0, 1.0, 1.0};
+    assert(interpolate(a, 1.2) == 1.0);
+  }
+  {
+    std::array a{0.0, 1.0, 2.0, 3.0};
+    assert(interpolate(a, 0.2) == 0.2);
   }
 
   return 0;
