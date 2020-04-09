@@ -9,31 +9,25 @@
 #define NDEBUG
 
 namespace manispline {
-  template<typename E>
-  auto interpolate(const std::array<E, 4>& v, const double u1)
+  auto interpolate(const std::array<auto, 4>& v, const double u1)
   {
     const auto u0 = 0;
     const auto u2 = u1 * u1;
     const auto u3 = u2 * u1;
-    const E i = 6 * u0 * v[0] + 0 * u1 * v[0] + 0 * u2 * v[0] + 0 * u3 * v[0] + // TODO coefficients
-                6 * u0 * v[1] + 0 * u1 * v[1] + 0 * u2 * v[1] + 0 * u3 * v[1] +
-                6 * u0 * v[2] + 0 * u1 * v[2] + 0 * u2 * v[2] + 0 * u3 * v[2] +
-                6 * u0 * v[3] + 0 * u1 * v[3] + 0 * u2 * v[3] + 0 * u3 * v[3];
-    return i;
+    return 6 * u0 * v[0] + 0 * u1 * v[0] + 0 * u2 * v[0] + 0 * u3 * v[0] + // TODO coefficients
+           6 * u0 * v[1] + 0 * u1 * v[1] + 0 * u2 * v[1] + 0 * u3 * v[1] +
+           6 * u0 * v[2] + 0 * u1 * v[2] + 0 * u2 * v[2] + 0 * u3 * v[2] +
+           6 * u0 * v[3] + 0 * u1 * v[3] + 0 * u2 * v[3] + 0 * u3 * v[3];
   }
 
 };
 
 struct eu
 {
-  template<typename A>
-  static auto log(const A& a){ return a; }
-  template<typename A>
-  static auto exp(const A& a){ return a; }
-  template<typename A>
-  static auto prod(const A& a){ return a; }
-  template<typename A, typename B, typename... T>
-  static auto prod(const A& a, const B& b, const T&... t){ return a + prod(b, t...); }
+  static auto log(const auto& a){ return a; }
+  static auto exp(const auto& a){ return a; }
+  static auto prod(const auto& a){ return a; }
+  static auto prod(const auto& a, const auto& b, const auto&... t){ return a + prod(b, t...); }
 };
 
 
