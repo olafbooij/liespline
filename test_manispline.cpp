@@ -45,13 +45,23 @@ int main()
     assert(eu::prod(1.2, 1.3, 0.3) == 2.8);
   }
   {
-    std::array v{1.0, 1.0, 1.0, 1.0};
-    assert(interpolate(v, 1.2) == 1.0);
+    std::array v{1., 1., 1., 1.};
+    assert(interpolate(v, 1.2) == 1.);
   }
   {
-    std::array v{0.0, 1.0, 2.0, 3.0};
-    assert(interpolate(v, 0.3) == 1.3);
+    std::array v{0., 1., 2., 3.};
+    assert(interpolate(v, .3) == 1.3);
   }
+  {
+    std::array v{0., 0., 0., 10.};
+    assert(interpolate(v, .1) > 0.);
+  }
+  {
+    std::array v{10., 0., 0., 0.};
+    assert(interpolate(v, .1) > 0.);
+    assert(interpolate(v, .6) > 0.);
+  }
+
 
   return 0;
 }
