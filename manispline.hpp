@@ -26,7 +26,7 @@ namespace manispline {
   {
     auto weights = compute_weights(delta_time);
     auto T_delta = T[0];
-    for(int j = 0; j < 3; ++j) // no one-based counting
+    for(int j: {0, 1, 2}) // no one-based counting
     {
       const auto Omega = manifold::log(manifold::place(T[j], T[j + 1]));
       T_delta = manifold::prod(T_delta, manifold::exp(weights(j) * Omega));
@@ -35,4 +35,3 @@ namespace manispline {
   }
 
 }
-
