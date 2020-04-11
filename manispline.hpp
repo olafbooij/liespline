@@ -1,3 +1,6 @@
+/** written by olaf booij
+ *  public domain */
+
 #pragma once
 
 #include<array>

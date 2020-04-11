@@ -10,7 +10,6 @@
 
 #include"manispline.hpp"
 
-
 struct eu
 {
   static auto log(const auto& a){ return a; }
@@ -19,7 +18,6 @@ struct eu
   static auto prod(const auto& a){ return a; }
   static auto prod(const auto& a, const auto& b, const auto&... t){ return a + prod(b, t...); }
 };
-
 
 int main()
 {
