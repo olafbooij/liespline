@@ -2,7 +2,6 @@
  *  public domain */
 
 #include<iostream>
-#include<random>
 #include<array>
 #include<Eigen/Core>
 #undef NDEBUG
@@ -24,13 +23,17 @@ namespace manispline {
     Eigen::Vector4d time_power{1, delta_time, delta_time*delta_time, delta_time*delta_time*delta_time};
     return cumulative_cubic_B_spline_coefficients() * time_power;
   }
-  double interpolate(const std::array<auto, 4>& v, const double delta_time)
+  template<typename manifold>
+  double interpolate(const std::array<auto, 4>& T, const double delta_time)
   {
-    const auto v_cummel_1 = v[1] - v[0];
-    const auto v_cummel_2 = v[2] - v[1];
-    const auto v_cummel_3 = v[3] - v[2];
     auto weights = compute_weights(delta_time);
-    return v[0] + weights(0) * v_cummel_1 + weights(1) * v_cummel_2 + weights(2) * v_cummel_3;
+    auto T_delta = T[0];
+    for(int j = 0; j < 3; ++j) // no one-based counting
+    {
+      const auto Omega = manifold::log(manifold::place(T[j], T[j + 1]));
+      T_delta = manifold::prod(T_delta, manifold::exp(weights(j) * Omega));
+    }
+    return T_delta;
   }
 
 };
@@ -39,6 +42,7 @@ struct eu
 {
   static auto log(const auto& a){ return a; }
   static auto exp(const auto& a){ return a; }
+  static auto place(const auto& a, const auto& b){ return b - a; }
   static auto prod(const auto& a){ return a; }
   static auto prod(const auto& a, const auto& b, const auto&... t){ return a + prod(b, t...); }
 };
@@ -55,21 +59,21 @@ int main()
     assert(close(eu::prod(1.2, 1.3, 0.3), 2.8));
   }
   {
-    std::array v{1., 1., 1., 1.};
-    assert(close(interpolate(v, 1.2), 1.));
+    std::array T{1., 1., 1., 1.};
+    assert(close(interpolate<eu>(T, 1.2), 1.));
   }
   {
-    std::array v{0., 1., 2., 3.};
-    assert(close(interpolate(v, .3), 1.3));
+    std::array T{0., 1., 2., 3.};
+    assert(close(interpolate<eu>(T, .3), 1.3));
   }
   {
-    std::array v{0., 0., 0., 10.};
-    assert(interpolate(v, .1) > 0.);
+    std::array T{0., 0., 0., 10.};
+    assert(interpolate<eu>(T, .1) > 0.);
   }
   {
-    std::array v{10., 0., 0., 0.};
-    assert(interpolate(v, .1) > 0.);
-    assert(interpolate(v, .6) > 0.);
+    std::array T{10., 0., 0., 0.};
+    assert(interpolate<eu>(T, .1) > 0.);
+    assert(interpolate<eu>(T, .6) > 0.);
   }
 
   return 0;
