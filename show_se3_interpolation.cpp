@@ -13,9 +13,9 @@ namespace liespline {
   {
     static auto log(const auto& a){ return logse3(a); }
     static auto exp(const auto& a){ return expse3(a); }
-    static auto place(const auto& a, const auto& b){ return (a.inverse() * b).eval(); }
+    static auto place(const auto& a, const auto& b){ return (a.inverse() * b); }
     static auto prod(const auto& a){ return a; }
-    static auto prod(const auto& a, const auto& b, const auto&... t){ return (a * prod(b, t...)).eval(); }
+    static auto prod(const auto& a, const auto& b, const auto&... t){ return (a * prod(b, t...)); }
   };
 
 }
@@ -23,10 +23,19 @@ namespace liespline {
 int main()
 {
   using namespace liespline;
-  using se3vec = Eigen::Matrix<double, 6, 1>;
-  se3vec T0vec; T0vec << .1, .3, .5, 0., 0., 0.;
-  auto T0 = expse3(T0vec);
-	plot_se3(T0, std::cout);
+
+  auto make_SE3 = [](Eigen::Vector3d t, Eigen::Vector3d r){return Isometryd3(Eigen::Translation3d(t) * Eigen::AngleAxisd(r.norm(), r.normalized()));};
+
+  std::array T{make_SE3({0., 0., 0.}, {0., 0., 0.}),
+               make_SE3({0., 3., 0.}, {0., 0., 0.}),
+               make_SE3({1., 4., 0.}, {0., 0., -M_PI/2.}),
+               make_SE3({4., 4., 0.}, {0., 0., -M_PI/2.})};
+
+  for(auto T_i: T)
+    plot_se3(T_i, std::cout);
+
+  for(double u = 0; u < 1; u += .1)
+    plot_se3(interpolate<se3>(T, u), std::cout, .5);
 
   return 0;
 }

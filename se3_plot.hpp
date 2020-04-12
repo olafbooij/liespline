@@ -8,9 +8,9 @@ namespace liespline {
   void plot_se3(const Isometryd3& transform, Out_stream&& out_stream, const double size = 1.)
   {
     auto origin = transform * Eigen::Vector3d::Zero();
-    auto unit_x = transform * Eigen::Vector3d::UnitX() * size;
-    auto unit_y = transform * Eigen::Vector3d::UnitY() * size;
-    auto unit_z = transform * Eigen::Vector3d::UnitZ() * size;
+    auto unit_x = transform * (Eigen::Vector3d::UnitX() * size);
+    auto unit_y = transform * (Eigen::Vector3d::UnitY() * size);
+    auto unit_z = transform * (Eigen::Vector3d::UnitZ() * size);
     out_stream << origin.transpose()  << " 0xFF0000" << std::endl
                << unit_x.transpose() << " 0xFF0000" << std::endl
                << std::endl
