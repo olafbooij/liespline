@@ -6,7 +6,13 @@
 #include<array>
 #include<Eigen/Core>
 
+// Elias Mueggler, Guillermo Gallego, Henri Rebecq, and Davide Scaramuzza
+// "Continuous-Time Visual-Inertial Odometry for Event Cameras"
+// only the se3 interpolation part
+
+
 namespace liespline {
+
   static Eigen::Matrix<double, 3, 4> cumulative_cubic_B_spline_coefficients()
   {
     Eigen::Matrix<double, 3, 4> B;
