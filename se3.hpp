@@ -21,7 +21,7 @@ namespace liespline {
 
   // F.C.Park "Distance Metrics on the Rigid-Body Motions with Applications to Mechanism Design"
   // with some rewrite
-  auto explie(const Eigen::Matrix<double, 6, 1>& se3)
+  auto expse3(const Eigen::Matrix<double, 6, 1>& se3)
   {
     auto se3_trans = se3.head<3>();
     auto so3 = se3.tail<3>();
@@ -35,7 +35,7 @@ namespace liespline {
     return Isometryd3(Eigen::Translation3d(A * se3_trans) * Eigen::AngleAxisd(angle, axis));
   }
 
-  auto loglie(const Isometryd3& SE3)
+  auto logse3(const Isometryd3& SE3)
   {
     auto SE3_trans = SE3.translation();
     auto so3_aa = Eigen::AngleAxisd(SE3.rotation());
