@@ -6,7 +6,7 @@
 #include<array>
 #include<Eigen/Core>
 
-namespace manispline {
+namespace liespline {
   static Eigen::Matrix<double, 3, 4> cumulative_cubic_B_spline_coefficients()
   {
     Eigen::Matrix<double, 3, 4> B;
@@ -21,15 +21,15 @@ namespace manispline {
     Eigen::Vector4d time_power{1, delta_time, delta_time*delta_time, delta_time*delta_time*delta_time};
     return cumulative_cubic_B_spline_coefficients() * time_power;
   }
-  template<typename manifold>
+  template<typename group>
   auto interpolate(const std::array<auto, 4>& T, const double delta_time)
   {
     auto weights = compute_weights(delta_time);
     auto T_delta = T[0];
     for(int j: {0, 1, 2}) // no one-based counting
     {
-      const auto Omega = manifold::log(manifold::place(T[j], T[j + 1]));
-      T_delta = manifold::prod(T_delta, manifold::exp(weights(j) * Omega));
+      const auto Omega = group::log(group::place(T[j], T[j + 1]));
+      T_delta = group::prod(T_delta, group::exp(weights(j) * Omega));
     }
     return T_delta;
   }

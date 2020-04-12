@@ -8,7 +8,7 @@
 #include<cassert>
 #define NDEBUG
 
-#include"manispline.hpp"
+#include"liespline.hpp"
 
 struct eu
 {
@@ -21,7 +21,7 @@ struct eu
 
 int main()
 {
-  using namespace manispline;
+  using namespace liespline;
   auto close = [](auto a, auto b){return fabs(a - b) < 1e-7;};
   {
     assert(close(eu::log(1.2), 1.2));
