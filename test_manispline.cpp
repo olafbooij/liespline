@@ -49,11 +49,13 @@ int main()
 
   {
     std::array<Eigen::Vector2d, 4> T{{{1., 1}, {1., -1.}, {-1., -1.}, {-1., 1.}}};
-    for(double u = 1; u < 2; u += .01)
-      std::cout << interpolate<eu>(T, u).transpose() << std::endl;
-
-    //assert(interpolate<eu>(T, .1) > 0.);
-    //assert(interpolate<eu>(T, .6) > 0.);
+    for(double u = 0; u < 1; u += .1)
+    {
+      assert(interpolate<eu>(T, u)(0) <  1.);
+      assert(interpolate<eu>(T, u)(0) > -1.);
+      assert(interpolate<eu>(T, u)(1) < 0);
+      assert(interpolate<eu>(T, u)(1) > -1.);
+    }
   }
 
   return 0;
