@@ -37,6 +37,17 @@ int main()
   for(double u = 0; u < 1; u += .1)
     plot_se3(interpolate<se3>(T, u), std::cout, .5);
 
+  {
+    std::array T{make_SE3({0., 0., 0.}, {0., 0., 0.}),
+                 make_SE3({0., 3., 0.}, {0., 0., 0.}),
+                 make_SE3({1., 4., 3.}, {2., 8., -M_PI/2.}),
+                 make_SE3({4., 4., 0.}, {0., 0., -M_PI/2.}),
+                 make_SE3({5., 6., 0.}, {0., 0., -M_PI/2.})};
+    std::cout << logse3(interpolate<se3>(T.begin() + 0, 1)).transpose() << std::endl;
+    std::cout << logse3(interpolate<se3>(T.begin() + 1, 0)).transpose() << std::endl;
+  }
+
+
   return 0;
 }
 
