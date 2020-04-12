@@ -22,7 +22,7 @@ namespace manispline {
     return cumulative_cubic_B_spline_coefficients() * time_power;
   }
   template<typename manifold>
-  double interpolate(const std::array<auto, 4>& T, const double delta_time)
+  auto interpolate(const std::array<auto, 4>& T, const double delta_time)
   {
     auto weights = compute_weights(delta_time);
     auto T_delta = T[0];
