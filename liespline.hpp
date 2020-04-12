@@ -27,17 +27,22 @@ namespace liespline {
     Eigen::Vector4d time_power{1, delta_time, delta_time*delta_time, delta_time*delta_time*delta_time};
     return cumulative_cubic_B_spline_coefficients() * time_power;
   }
-  template<typename group>
-  auto interpolate(const std::array<auto, 4>& T, const double delta_time)
+  template<typename group, typename input_iterator_t>
+  auto interpolate(input_iterator_t iter, const double delta_time)
   {
     auto weights = compute_weights(delta_time);
-    auto T_delta = T[0];
-    for(int j: {0, 1, 2}) // no one-based counting
+    auto T_delta = *iter;
+    for(int j: {0, 1, 2})
     {
-      const auto Omega = group::log(group::place(T[j], T[j + 1]));
+      const auto Omega = group::log(group::place(*(iter + j), *(iter + j + 1)));
       T_delta = group::prod(T_delta, group::exp(weights(j) * Omega));
     }
     return T_delta;
+  }
+  template<typename group>
+  auto interpolate(const std::array<auto, 4>& T, const double delta_time)
+  {
+    return interpolate<group>(T.begin(), delta_time);
   }
 
 }
