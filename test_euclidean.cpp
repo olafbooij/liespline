@@ -46,6 +46,13 @@ int main()
     assert(interpolate<eu>(T, .1) > 0.);
     assert(interpolate<eu>(T, .6) > 0.);
   }
+  {
+    std::array T{0., 2., 2., 3., 5., 6.};
+    assert(close(interpolate<eu>(std::array{T[0], T[1], T[2], T[3]}, 1),
+                 interpolate<eu>(std::array{T[1], T[2], T[3], T[4]}, 0)));
+    assert(close(interpolate<eu>(std::array{T[1], T[2], T[3], T[4]}, 1),
+                 interpolate<eu>(std::array{T[2], T[3], T[4], T[5]}, 0)));
+  }
 
   {
     std::array<Eigen::Vector2d, 4> T{{{1., 1}, {1., -1.}, {-1., -1.}, {-1., 1.}}};
