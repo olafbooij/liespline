@@ -1,5 +1,5 @@
 # liespline
-Just an example implemantation of cubic B-spline interpolation for 3D euclidean motions (se3).
+Just an example implementation of cubic B-spline interpolation for 3D Euclidean motions (se3).
 
 <img src="./show_se3_interpolation.svg">
 
