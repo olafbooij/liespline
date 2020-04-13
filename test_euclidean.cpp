@@ -17,7 +17,7 @@ struct eu
   static auto place(const auto& a, const auto& b){ return b - a; }
   static auto prod(const auto& a){ return a; }
   static auto prod(const auto& a, const auto& b, const auto&... t){ return a + prod(b, t...); }
-};
+}
 
 int main()
 {
