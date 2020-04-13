@@ -54,7 +54,7 @@ int main()
     T.emplace_back(make_SE3({4-double(i), 0., 1.}, {0., 0., M_PI/2}));
 
   for(int i=T.size()-1; --i;)
-    plot_se3(T[i], std::cout, .5);
+    plot_se3(T[i], std::cout, .2);
   for(int t = 0; t < T.size() - 3; ++t)
     for(double u = 0; u < 1; u += .2)
       plot_se3(interpolate<se3>(T.begin() + t, u), std::cout, .1);
