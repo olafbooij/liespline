@@ -24,19 +24,40 @@ int main()
 {
   using namespace liespline;
 
+  srand((unsigned int) time(0));
+
+  if(0)
+  {
+  // wobbly path
+  std::vector<Isometryd3> T(6);
+  auto cur = Isometryd3::Identity();
+  for(auto& T_i: T)
+    T_i = cur = cur * Eigen::Translation3d(Eigen::Vector3d::UnitY()) * expse3(.3 * Eigen::Matrix<double, 6, 1>::Random());
+  }
+
+  if(0)
+  {
+  // spiral
+  std::vector<Isometryd3> T(32);
+  auto cur = Isometryd3::Identity();
+  auto step = expse3(Eigen::Matrix<double, 6, 1>::Random());
+  for(auto& T_i: T)
+    T_i = cur = cur * step;
+  }
+
+  // downward curve
   auto make_SE3 = [](Eigen::Vector3d t, Eigen::Vector3d r){return Isometryd3(Eigen::Translation3d(t) * Eigen::AngleAxisd(r.norm(), r.normalized()));};
+  std::vector<Isometryd3> T;
+  for(int i=4; --i;)
+    T.emplace_back(make_SE3({0., double(i), 0.}, {0., 0., 0.}));
+  for(int i=4; --i;)
+    T.emplace_back(make_SE3({4-double(i), 0., 1.}, {0., 0., M_PI/2}));
 
-  std::array T{make_SE3({0., 0., 0.}, {0., 0., 0.}),
-               make_SE3({0., 3., 0.}, {0., 0., 0.}),
-               make_SE3({1., 4., 0.}, {0., 0., -M_PI/2.}),
-               make_SE3({4., 4., 0.}, {0., 0., -M_PI/2.})};
-
-  for(auto T_i: T)
-    plot_se3(T_i, std::cout);
-
-  for(double u = 0; u < 1; u += .1)
-    plot_se3(interpolate<se3>(T, u), std::cout, .5);
-
+  for(int i=T.size()-1; --i;)
+    plot_se3(T[i], std::cout, .5);
+  for(int t = 0; t < T.size() - 3; ++t)
+    for(double u = 0; u < 1; u += .2)
+      plot_se3(interpolate<se3>(T.begin() + t, u), std::cout, .1);
 
 
   return 0;
