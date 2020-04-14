@@ -13,7 +13,7 @@
 
 namespace liespline {
 
-  static Eigen::Matrix<double, 3, 4> cumulative_cubic_B_spline_coefficients()
+  Eigen::Matrix<double, 3, 4> cumulative_cubic_B_spline_coefficients()
   {
     Eigen::Matrix<double, 3, 4> B;
     B <<  5,  3, -3,  1,

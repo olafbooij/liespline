@@ -1,5 +1,6 @@
 #pragma once
 
+#include<iostream>
 #include"se3.hpp"
 
 namespace liespline {
@@ -33,7 +34,6 @@ namespace liespline {
   set zlabel "z"
   splot "<./a.out" with lines lc rgb variable
   */
-
 
 }
 
